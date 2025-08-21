@@ -33,8 +33,30 @@ conversation_config_override = conversation_override
 extra_body = {}
 dynamic_variables = {}
 
-config = ConversationConfig(conversation_config_override,extra_body, dynamic_variables )
+config = ConversationConfig()
+config.conversation_config_override = conversation_override
+config.extra_body = {}
+config.dynamic_variables = {}
+
+# printing transcripts in terminal
+
+def  assistant_response(response):
+    print(f"Assistant: {response}")
+
+def assistant_interrupted_response(original, corrected):
+    print(f"Assistant: {original} -> {corrected}")
+
+def user_transcript(transcript):
+    print(f"User: {transcript}")
 
 client = ElevenLabs(api_key=API_KEY)
 
-conversation = Conversation(client, AGENT_ID, config = config , requires_auth=True, audio_interface = DefaultAudioInterface(), )
+conversation = Conversation(client, AGENT_ID,
+                            config = config,
+                            requires_auth=True,
+                            audio_interface = DefaultAudioInterface(),
+                            callback_agent_response = assistant_response,
+                            callback_agent_response_correction = assistant_interrupted_response,
+                            callback_user_transcript = user_transcript)
+
+conversation.start_session()
