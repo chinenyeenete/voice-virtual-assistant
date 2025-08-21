@@ -50,7 +50,6 @@ def user_transcript(transcript):
 client = ElevenLabs(api_key=API_KEY)
 
 conversation = Conversation(client, AGENT_ID,
-                            #conversation_config_override = conversation_override,
                             requires_auth=True,
                             audio_interface = DefaultAudioInterface(),
                             callback_agent_response = assistant_response,
