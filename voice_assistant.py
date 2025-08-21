@@ -29,14 +29,12 @@ conversation_override = {
     },
 }
 
-conversation_config_override = conversation_override
-extra_body = {}
-dynamic_variables = {}
-
 config = ConversationConfig()
-config.conversation_config_override = conversation_override
-config.extra_body = {}
-config.dynamic_variables = {}
+config = config.model_copy(update={
+    "conversation_config_override": conversation_override,
+    "extra_body": {},
+    "dynamic_variables": {},
+})
 
 # printing transcripts in terminal
 
@@ -52,7 +50,7 @@ def user_transcript(transcript):
 client = ElevenLabs(api_key=API_KEY)
 
 conversation = Conversation(client, AGENT_ID,
-                            config = config,
+                            #conversation_config_override = conversation_override,
                             requires_auth=True,
                             audio_interface = DefaultAudioInterface(),
                             callback_agent_response = assistant_response,
