@@ -19,4 +19,22 @@ schedule = "Project due at 5:00pm; Date at 7:00pm."
 prompt = f"Hey assistant. Your interlocutor has the following schedule: {schedule}"
 first_message = f"Hello {user_name}, how can I assist you today?"
 
-# Conversation configuration override
+# Overriding conversation
+conversation_override = {
+    "agent": {
+        "prompt": {
+            "prompt": prompt,
+        },
+        "first_message": first_message,
+    },
+}
+
+conversation_config_override = conversation_override
+extra_body = {}
+dynamic_variables = {}
+
+config = ConversationConfig(conversation_config_override,extra_body, dynamic_variables )
+
+client = ElevenLabs(api_key=API_KEY)
+
+conversation = Conversation(client, AGENT_ID, config = config , requires_auth=True, audio_interface = DefaultAudioInterface(), )
